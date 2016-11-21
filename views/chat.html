@@ -24,7 +24,6 @@ $(document).ready(function(){
     $('#user-'+obj.userid).remove();
   });
   socket.on('connect', function(obj){
-    console.log(obj);
     appendmsg({msg:'Welcome to the chat room! Type !help for available emotes.'});
   });
   socket.on('newmessage', function(obj){
@@ -48,8 +47,9 @@ function appendmsg(obj) {
   if(obj.userid) {
     li.append($('<b>').text(obj.userid + ': '));
   }
-  li.append($('<span>').append(obj.msg));
+  li.append($('<span>').append(obj.msg.replace('Kappa', '<img src="https://static-cdn.jtvnw.net/emoticons/v1/25/1.0" />')));
   $('#messages').append(li);
+  $('#messages').scrollTop($('#messages')[0].scrollHeight);
 }
 </script>
 {% endblock %}
