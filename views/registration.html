@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block head %}
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#add-user').submit(function(e) {
+    $('#submitbutton').before('<img id="submitloading" src="/images/ajax-loader.gif" />');
+    $('#submitbutton').attr('disabled', 'disabled');
+    e.preventDefault();
+    if($('#pwd').val()!=$('#pwd-confirm').val()) {
+      alert("passwords don't match");
+      return;
+    }
+    $.ajax({
+      url: '/api/user/' + $('#userid').val(),
+      type: 'PUT',
+      data: $(this).serialize(),
+      success: function(data) {
+        window.location = "/login";
+      },
+      error: function(err) {
+        alert("Error: " + err.responseText);
+        $('#submitloading').remove();
+        $('#submitbutton').removeAttr('disabled');
+      }
+    });
+  });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+  <p class='description'>Please complete your new registration by filling up all of the following fields</p> 
+  <form id="add-user" method="put" action="/employee">
+    <p>
+      User ID (must be alphanumeric):<br />
+      <input id="userid" type="text" /> 
+    </p>
+    <p>
+      Name:<br />
+      <input type="text" name="name" /> 
+    </p>
+    <p>
+      Email:<br />
+      <input type="email" name="email" /> 
+    </p>
+    <p>
+      Password:<br />
+      <input id="pwd" type="password" name="password" /> 
+    </p>
+    <p>
+      Password confirmation:<br />
+      <input id="pwd-confirm" type="password" />
+    </p>
+    <p>
+      <input id="submitbutton" type="submit" value="New Registration" />
+    </p>
+  </form>
+{% endblock %}

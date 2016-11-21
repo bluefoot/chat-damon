@@ -1,16 +1,31 @@
 {
-	"name": "NodejsStarterApp",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node app.js"
-	},
-	"dependencies": {
-		"express": "4.13.x",
-		"cfenv": "1.0.x"
-	},
-	"repository": {},
-	"engines": {
-		"node": "4.x"
-	} 
+  "name": "gewtonj-chat",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Gewton Teixeira",
+  "contributors": [
+    {
+    "name": "Gewton Teixeira",
+    "email": "gewtonj@br.ibm.com"
+    }
+  ],
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.13.x",
+    "cfenv": "1.0.x",
+    "mongodb": "^2.2.9",
+    "validator": "^6.1.0",
+    "body-parser": "^1.15.2",
+    "swig": "^1.4.1",
+    "express-session": "^1.14.2",
+    "express-flash": "^0.0.2",
+    "cookie-parser": "^1.4.3",
+    "socket.io":"^1.6.0"
+  },
+    "repository": {},
+    "engines": {
+      "node": "4.x"
+    } 
 }

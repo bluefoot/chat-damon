@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block head %}
+<script src="/socket.io/socket.io.js"></script>
+<script>
+$(document).ready(function(){
+  var socket = io();
+  var me = '{{ user.userid }}';
+  $('#chatform').submit(function(e){
+    e.preventDefault();
+    var msg = $('#msg').val();
+    socket.emit('newmessage', msg);
+    appendmsg({userid:me,msg:msg});
+    $('#msg').val('');
+  });
+  
+  socket.on('newmessage', function(obj){
+    appendmsg(obj);
+  });
+  socket.on('disconnect', function(obj){
+    appendmsg({msg:'You have been disconnected!! <a href="/login">Click here</a> to login again'});
+  });
+});
+
+function appendmsg(obj) {
+  var li = $('<li>');
+  if(obj.userid) {
+    li.append($('<b>').text(obj.userid + ': '));
+  }
+  li.append($('<span>').append(obj.msg));
+  $('#messages').append(li);
+}
+</script>
+{% endblock %}
+
+{% block content %}
+  <ul id="messages"></ul>
+  <form id="chatform" action="">
+    <input id="msg" autocomplete="off" placeholder="Send a message"/><button>Chat</button>
+  </form>
+{% endblock %}

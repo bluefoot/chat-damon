@@ -1,82 +1,130 @@
-/* style.css
- * This file provides css styles.
- */
+body,html,p {
+  margin:0;
+  padding:0;
+}
 
+.main-header h1 a,
 body,html {
-	background-color: #3b4b54; width : 100%;
-	height: 100%;
-	margin: 0 auto;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-	color: #ffffff;
+  color: #404040;
+}
+body,html {
+  background-color: #ffffff; 
+  width : 100%;
+  height: 100%;
+  font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 14px;
+  line-height:1.5;
+}
+
+.main-content, .main-header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.main-header {
+  position: relative;
+  z-index: 3;
+  margin-bottom: -1px;
+  background-color: #fff;
+  background-clip: padding-box;
+  border-bottom: 1px solid rgba(0,0,0,0.075);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.main-header h1 {
+  font-size: 16px;
+  font-weight:normal;
+}
+
+.inner {
+  max-width: 980px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.main-content {
+	background-color: #fafafa;
+	border-bottom: 1px solid rgba(0,0,0,0.075);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.main-content .inner {
+	 position: relative;
+    
+	min-height:500px;
+}
+.main-footer {
+	font-size: 12px;
+}
+.main-footer .inner {
+	border-top: 1px solid #eee;
+	margin-top: 20px;
+}
+
+.footer-items {
+	list-style:none;
+}
+
+.footer-items li {
+	display:inline-block;
+	margin-right:20px;
+}
+.wrap-centered {
+  position: absolute;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -100px 0 0 -150px;
 }
 
 a {
-	text-decoration: none;
-	color: #00aed1;
+  text-decoration: none;
+  color: #00aed1;
 }
 
 a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
-.newappIcon {
-	padding-top: 10%;
-	display: block;
-	margin: 0 auto;
-	padding-bottom: 2em;
-	max-width:200px;
-}
-
-h1 {
-	font-weight: bold;
-	font-size: 2em;
-}
-
-.leftHalf {
-	float: left;
-	background-color: #26343f;
-	width: 45%;
-	height: 100%;
-}
-
-.rightHalf {
-	float: right;
-	width: 55%;
-	background-color: #313f4a;
-	height: 100%;
-	overflow:auto;
-}
-
-.blue {
-	color: #00aed1;
+#messages {
+	font-size:13px;
 }
 
 
-table {
-	table-layout: fixed;
-	width: 800px;
-	margin: 0 auto;
-	word-wrap: break-word;
-	padding-top:10%;
+/* chat page */
+
+#chatform {
+position: absolute;
+    bottom: 0;
+    width:100%;
 }
 
-th {
-	border-bottom: 1px solid #000;
+#chatform input {
+  width: 88%;
+  border: 0;
+  padding: 10px;
+  background-color:#eee;
+  margin-right: .5%;
 }
 
-th, td {
-	text-align: left;
-	padding: 2px 20px;
+#chatform button {
+  width: 9%;
+  background: #00aed1;
+  border: none;
+  padding: 10px;
+  color:#ffffff;
 }
 
-.env-var {
-	text-align: right;
-	border-right: 1px solid #000;
-	width: 30%;
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-pre {
-	padding: 0;
-	margin: 0;
+#messages li {
+  padding: 5px 10px;
 }
 
+#messages li:nth-child(odd) {
+  background: #eee;
+}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <form id="login" method="post" action="/login">
+    <p>
+      User ID:<br />
+      <input type="text" name="userid" /> 
+    </p>
+    <p>
+      Password:<br />
+      <input type="password" name="password" /> 
+    </p>
+    <p>
+      <input type="submit" value="Login" />
+    </p>
+    <p>
+      New User? <a href="/register">Click here</a> to create a new registration.
+    </p>
+  </form>
+{% endblock %}

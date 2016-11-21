@@ -1,17 +1,11 @@
-This README.md file is displayed on your project page. You should edit this 
-file to describe your project, including instructions for building and 
-running the project, pointers to the license under which you are making the 
-project available, and anything else you think would be useful for others to
-know.
+# Chat
 
-We have created an empty license.txt file for you. Well, actually, it says,
-"<Replace this text with the license you've chosen for your project.>" We 
-recommend you edit this and include text for license terms under which you're
-making your code available. A good resource for open source licenses is the 
-[Open Source Initiative](http://opensource.org/).
+This project was written by gewtonj@br.ibm.com as part of the Case Study 2 for the
+[Application Developer-Cloud.Java Advanced Level learning path](https://lpb.w3bmix.ibm.com/?id=85257E85001C3E31).
 
-Be sure to update your project's profile with a short description and 
-eye-catching graphic.
+Technologies: Node.js, MongoDB, Express, Socket.IO. Please refer to https://lpb.w3bmix.ibm.com/?id=85257E85001C3E31
+for more info on the requirements.
 
-Finally, consider defining some sprints and work items in Track & Plan to give 
-interested developers a sense of your cadence and upcoming enhancements.
+## Run
+
+    node app.js
