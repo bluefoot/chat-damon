@@ -130,6 +130,10 @@ position: absolute;
   color:#ffffff;
 }
 
+#chatform button.disabled {
+	background: #eee;
+}
+
 #messages {
 	font-size:13px;
 }
@@ -172,7 +176,22 @@ position: absolute;
     background-image: -webkit-linear-gradient(top, #fffcfd, #e3e3e3);
     background-image: linear-gradient(top, #fffcfd, #e3e3e3);
     background-clip: padding-box;
-    padding:4px;
+    padding:4px 4px 4px 12px;
 	margin-right:10px;
 	margin-bottom:7px;
+	background-position: 1px center;
+	background-repeat: no-repeat;
 }
+
+#chatonlineusers li.av {
+	background-image: url("/images/green-small.gif");
+}
+
+#chatonlineusers li.aw {
+    background-image: url("/images/gray-small.gif");
+}
+
+#chatonlineusers li.b {
+    background-image: url("/images/red-small.gif");
+}
+

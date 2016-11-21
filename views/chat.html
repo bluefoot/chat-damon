@@ -2,26 +2,33 @@
 {% block head %}
 <script src="/socket.io/socket.io.js"></script>
 <script>
+var socket = io();
+var me = '{{ user.userid }}';
 $(document).ready(function(){
-  var socket = io();
-  var me = '{{ user.userid }}';
+  
   $('#chatform').submit(function(e){
     e.preventDefault();
     var msg = $('#msg').val();
     socket.emit('newmessage', msg);
     appendmsg({userid:me,msg:msg});
     $('#msg').val('');
+    reportActivity();
+  });
+  
+  socket.on('initialdata', function(obj) {
+    $("#chatonlineusers li:not(:first)").remove();
+    newUserOnline(obj.onlineUsers);
   });
   socket.on('userconnect', function(obj) {
-    appendmsg({userid:obj.userid, msg:'Has entered the chat room!'});
-    newUserOnline([obj.userid]);
-  });
-  socket.on('initialdata', function(obj) {
-    newUserOnline(obj.onlineUsers);
+    appendmsg({userid:Object.keys(obj)[0], msg:'Has entered the chat room!'});
+    newUserOnline(obj);
   });
   socket.on('userdisconnect', function(obj) {
     appendmsg({userid:obj.userid, msg:'Has left the chat room!'});
     $('#user-'+obj.userid).remove();
+  });
+  socket.on('userstatus', function(obj){
+    updateStatus(obj);
   });
   socket.on('connect', function(obj){
     appendmsg({msg:'Welcome to the chat room! Type !help for available emotes.'});
@@ -32,14 +39,22 @@ $(document).ready(function(){
   socket.on('disconnect', function(obj){
     appendmsg({msg:'You have been disconnected! <a href="/login">Click here</a> to login again'});
     $('#user-'+obj.userid).remove();
+    $('#chatform button').attr('disabled', 'disabled').addClass('disabled');
+    $('#msg').attr('disabled', 'disabled');
   });
+  reportActivity();
 });
 
 function newUserOnline(users) {
-  for(var i = 0;i < users.length;i++) {
-    var userid = users[i];
-    $('#chatonlineusers').append($('<li>').attr('id','user-'+userid).text(userid));
+  for(var key in users) {
+    if($('#user-'+key).length==0) {
+      $('#chatonlineusers').append($('<li>').attr('id','user-'+key).attr('class', users[key]).text(key));
+    }
   }
+}
+
+function updateStatus(user) {
+  $('#user-'+user.userid).attr('class', user.status);
 }
 
 function appendmsg(obj) {
@@ -51,6 +66,20 @@ function appendmsg(obj) {
   $('#messages').append(li);
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
 }
+
+var activityTimer;
+
+function setUserIdle() {
+  socket.emit('idle');
+  appendmsg({msg:'You are now idle'});
+}
+
+function reportActivity() {
+  socket.emit('available');
+  clearTimeout(activityTimer);
+  activityTimer = setTimeout(setUserIdle, 3000)
+}
+
 </script>
 {% endblock %}
 
