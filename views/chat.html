@@ -12,14 +12,36 @@ $(document).ready(function(){
     appendmsg({userid:me,msg:msg});
     $('#msg').val('');
   });
-  
+  socket.on('userconnect', function(obj) {
+    appendmsg({userid:obj.userid, msg:'Has entered the chat room!'});
+    newUserOnline([obj.userid]);
+  });
+  socket.on('initialdata', function(obj) {
+    newUserOnline(obj.onlineUsers);
+  });
+  socket.on('userdisconnect', function(obj) {
+    appendmsg({userid:obj.userid, msg:'Has left the chat room!'});
+    $('#user-'+obj.userid).remove();
+  });
+  socket.on('connect', function(obj){
+    console.log(obj);
+    appendmsg({msg:'Welcome to the chat room! Type !help for available emotes.'});
+  });
   socket.on('newmessage', function(obj){
     appendmsg(obj);
   });
   socket.on('disconnect', function(obj){
-    appendmsg({msg:'You have been disconnected!! <a href="/login">Click here</a> to login again'});
+    appendmsg({msg:'You have been disconnected! <a href="/login">Click here</a> to login again'});
+    $('#user-'+obj.userid).remove();
   });
 });
+
+function newUserOnline(users) {
+  for(var i = 0;i < users.length;i++) {
+    var userid = users[i];
+    $('#chatonlineusers').append($('<li>').attr('id','user-'+userid).text(userid));
+  }
+}
 
 function appendmsg(obj) {
   var li = $('<li>');
@@ -33,8 +55,17 @@ function appendmsg(obj) {
 {% endblock %}
 
 {% block content %}
+  <div id="chatusers"></div>
   <ul id="messages"></ul>
   <form id="chatform" action="">
     <input id="msg" autocomplete="off" placeholder="Send a message"/><button>Chat</button>
   </form>
+{% endblock %}
+
+{% block footer %}
+  <ul id="chatonlineusers" class="left"><li><b>Online Users:</b></li>
+  <!-- 
+  <li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li>
+   -->
+  </ul>
 {% endblock %}

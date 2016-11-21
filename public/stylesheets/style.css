@@ -1,4 +1,4 @@
-body,html,p {
+body,html,p,ul {
   margin:0;
   padding:0;
 }
@@ -61,13 +61,18 @@ body,html {
 	margin-top: 20px;
 }
 
-.footer-items {
+.footer-items, #chatonlineusers {
 	list-style:none;
+	margin-top:12px;
 }
 
-.footer-items li {
+.footer-items li, #chatonlineusers li {
 	display:inline-block;
 	margin-right:20px;
+}
+
+.footer-items li:last-child {
+	margin-right:0;
 }
 .wrap-centered {
   position: absolute;
@@ -86,12 +91,22 @@ a:hover {
   text-decoration: underline;
 }
 
-#messages {
-	font-size:13px;
+
+.left {
+  float:left;
+}
+
+.right {
+  float:right;
+}
+
+.clear {
+  clear:both;
 }
 
 
 /* chat page */
+
 
 #chatform {
 position: absolute;
@@ -116,7 +131,16 @@ position: absolute;
 }
 
 #messages {
+	font-size:13px;
+}
+
+#messages {
   list-style-type: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height:100%;
+  width:100%;
+  position:absolute;
   margin: 0;
   padding: 0;
 }
@@ -127,4 +151,28 @@ position: absolute;
 
 #messages li:nth-child(odd) {
   background: #eee;
+}
+
+#chatonlineusers {
+	width:70%;
+	line-height:1.1em;
+	margin-top:12px;
+}
+
+#chatonlineusers li:first-child {
+	margin-right:5px;
+}
+
+#chatonlineusers li:not(:first-child) {
+	border-radius: 5px;
+    box-shadow: 0px 0px 3px #000000;
+    background-image: -moz-linear-gradient(top, #fffcfd, #e3e3e3);
+    background-image: -ms-linear-gradient(top, #fffcfd, #e3e3e3);
+    background-image: -o-linear-gradient(top, #fffcfd, #e3e3e3);
+    background-image: -webkit-linear-gradient(top, #fffcfd, #e3e3e3);
+    background-image: linear-gradient(top, #fffcfd, #e3e3e3);
+    background-clip: padding-box;
+    padding:4px;
+	margin-right:10px;
+	margin-bottom:7px;
 }

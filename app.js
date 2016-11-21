@@ -46,26 +46,44 @@ app.set('views', path.join(__dirname, 'views'));
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
 
-// Socket IO configuration
+// Socket IO configuration with session
 io.use(function(socket, next) {
   sessionm(socket.request, socket.request.res, next);
 });
 app.use(sessionm);
 io.on('connection', function(socket){
+  // Get user from session. If not found, disconnects.
   var user = socket.request.session.user;
   if(!user) {
     return socket.disconnect();
   }
-  console.log('a user connected: ' + user.userid);
+  // Saves user info in the socket room, so it can be retrieved later
+  socket.userid=user.userid;
+  // Sends a message to the recently-connected users with some initial data.
+  // Currently only data sent is the list of online users
+  socket.emit('initialdata', {onlineUsers:getOnlineUsers()});
+  // Now sends a message to everyone else that this user has connected, so they
+  // can update their "online" list
+  socket.broadcast.emit('userconnect', {userid:user.userid});
+  // Send everyone a message when it arrives
   socket.on('newmessage', function(msg){
     socket.broadcast.emit('newmessage', {userid:user.userid,msg:msg});
-//    io.emit('newmessage', {userid:user.userid,msg:msg});   // this would go to everyone, including the owner
   });
+  // Send everyone a signal that this user has disconnected
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    socket.broadcast.emit('userdisconnect', {userid:user.userid});
   });
-  
 });
+
+// Iterates over all connected sockets and return their "userid" attribute, set above
+function getOnlineUsers() {
+  var sockets = io.sockets.sockets;
+  var users = [];
+  for(var key in sockets) {
+    users.push(sockets[key].userid);
+  }
+  return users;
+}
 
 // Routes
 // GET    /                             view start page
