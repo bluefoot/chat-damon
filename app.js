@@ -1,7 +1,7 @@
 /*eslint-env node */
 
-// TODO if user already in chat room, and enters again from another tab or whatever, do not show notification
 // TODO put all socket.io logic on routes.js, also logout logic
+// TODO implement busy
 //------------------------------------------------------------------------------
 // gewtonj-chat (Chat system by gewtonj@br.ibm.com)
 //------------------------------------------------------------------------------

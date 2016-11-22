@@ -13,9 +13,15 @@
     <div class="wrap">
       <header class="main-header">
         <div class="inner">
-          <h1>
-            <a href="/">Chat</a>
-          </h1>
+          <div class="left">
+            <h1>
+              <a href="/">Chat</a>
+            </h1>
+          </div>
+          <div class="right">
+            {% block header %}{% endblock %}
+          </div>
+          <div class="clear"></div>
         </div>
       </header>
       <div class="main-content">

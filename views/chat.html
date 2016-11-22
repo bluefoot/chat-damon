@@ -6,6 +6,13 @@ var socket = io();
 var me = '{{ user.userid }}';
 $(document).ready(function(){
   
+  $('#busy').click(function(){
+    if($(this).is(":checked")) {
+      socket.emit('busy');
+    } else {
+      socket.emit('available');
+    }
+  });
   $('#chatform').submit(function(e){
     e.preventDefault();
     var msg = $('#msg').val();
@@ -20,7 +27,6 @@ $(document).ready(function(){
     newUserOnline(obj.onlineUsers);
   });
   socket.on('userconnect', function(obj) {
-    appendmsg({userid:Object.keys(obj)[0], msg:'Has entered the chat room!'});
     newUserOnline(obj);
   });
   socket.on('userdisconnect', function(obj) {
@@ -31,7 +37,7 @@ $(document).ready(function(){
     updateStatus(obj);
   });
   socket.on('connect', function(obj){
-    appendmsg({msg:'Welcome to the chat room! Type !help for available emotes.'});
+    appendmsg({msg:'Welcome to the chat room!'});
   });
   socket.on('newmessage', function(obj){
     appendmsg(obj);
@@ -40,6 +46,7 @@ $(document).ready(function(){
     appendmsg({msg:'You have been disconnected! <a href="/login">Click here</a> to login again'});
     $('#user-'+obj.userid).remove();
     $('#chatform button').attr('disabled', 'disabled').addClass('disabled');
+    $('#busy').attr('disabled', 'disabled');
     $('#msg').attr('disabled', 'disabled');
   });
   reportActivity();
@@ -62,7 +69,7 @@ function appendmsg(obj) {
   if(obj.userid) {
     li.append($('<b>').text(obj.userid + ': '));
   }
-  li.append($('<span>').append(obj.msg.replace('Kappa', '<img src="https://static-cdn.jtvnw.net/emoticons/v1/25/1.0" />')));
+  li.append($('<span>').append(obj.msg.replace(/Kappa/g, '<img src="https://static-cdn.jtvnw.net/emoticons/v1/25/1.0" />')));
   $('#messages').append(li);
   $('#messages').scrollTop($('#messages')[0].scrollHeight);
 }
@@ -71,30 +78,37 @@ var activityTimer;
 
 function setUserIdle() {
   socket.emit('idle');
-  appendmsg({msg:'You are now idle'});
 }
 
 function reportActivity() {
-  socket.emit('available');
+  if(!$('#busy').is(":checked")) {
+    socket.emit('available');
+  }
   clearTimeout(activityTimer);
-  activityTimer = setTimeout(setUserIdle, 3000)
+  activityTimer = setTimeout(setUserIdle, 60000)
 }
 
 </script>
 {% endblock %}
 
+{% block header %}
+  <form id="optionsform" action="">
+    
+  </form>
+{% endblock %}
+
 {% block content %}
-  <div id="chatusers"></div>
   <ul id="messages"></ul>
   <form id="chatform" action="">
-    <input id="msg" autocomplete="off" placeholder="Send a message"/><button>Chat</button>
+    <input id="msg" type="text" autocomplete="off" placeholder="Send a message"/>
+    <div id="chatoptions">
+      <label class="left"><input id="busy" type="checkbox" />I am busy</label> 
+      <button class="right">Chat</button>
+      <div class="clear"></div>
+    </div>
   </form>
 {% endblock %}
 
 {% block footer %}
-  <ul id="chatonlineusers" class="left"><li><b>Online Users:</b></li>
-  <!-- 
-  <li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li><li>some dude</li>
-   -->
-  </ul>
+  <ul id="chatonlineusers" class="left"><li><b>Online Users:</b></li></ul>
 {% endblock %}
