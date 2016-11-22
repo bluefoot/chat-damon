@@ -26,14 +26,23 @@
       </header>
       <div class="main-content">
         <div class="inner">
+          <div id="flashmessages">
+            {% if messages.info %}
+            <span class="info">{{messages.info}}</span>
+            {% endif %}
+            {% if messages.error %}
+            <span class="error">{{messages.error}}</span>
+            {% endif %}
+          </div>
           {% block content %}{% endblock %}
         </div>
       </div>
       <footer class="main-footer">
         <div class="inner">
           <ul class="footer-items right">
-            <li><a href="/">Home Page</a></li>
+            {% if user %}
             <li><a href="/logout">Logout</a></li>
+            {% endif %}
           </ul>
           {% block footer %}{% endblock %}
         </div>

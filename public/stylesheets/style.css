@@ -105,6 +105,28 @@ a:hover {
 }
 
 
+#flashmessages {
+  text-align:center;
+}
+
+#flashmessages span {
+  border-radius: 9px;
+  padding: 5px 7px;
+}
+
+#flashmessages span.info {
+  background-color: #c9ddff;
+  border: 3px solid #3281ff;
+  color: #3281ff;
+}
+
+#flashmessages span.error {
+  background-color: #fcc2c2;
+  border: 3px solid #ff3232;
+  color: #ff3232;
+}
+
+
 /* chat page */
 
 

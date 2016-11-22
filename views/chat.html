@@ -30,7 +30,6 @@ $(document).ready(function(){
     newUserOnline(obj);
   });
   socket.on('userdisconnect', function(obj) {
-    appendmsg({userid:obj.userid, msg:'Has left the chat room!'});
     $('#user-'+obj.userid).remove();
   });
   socket.on('userstatus', function(obj){
@@ -89,12 +88,6 @@ function reportActivity() {
 }
 
 </script>
-{% endblock %}
-
-{% block header %}
-  <form id="optionsform" action="">
-    
-  </form>
 {% endblock %}
 
 {% block content %}
